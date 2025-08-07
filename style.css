@@ -1,0 +1,133 @@
+body {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-family: 'MS Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  text-align: center;
+}
+
+#game-container {
+  width: 800px;
+}
+
+#info-display {
+  margin-bottom: 20px;
+}
+
+#death-count {
+  font-size: 2em;
+  color: #ff4d4d;
+  text-shadow: 0 0 5px #ff0000;
+}
+
+#dialogue {
+  font-size: 1.2em;
+  min-height: 1.5em;
+}
+
+#canvas-container {
+  border: 1px solid #444;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  position: relative; /* For positioning controls */
+}
+
+body {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-family: 'MS Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  text-align: center;
+}
+
+#game-container {
+  width: 1600px;
+}
+
+#info-display {
+  margin-bottom: 20px;
+}
+
+#death-count {
+  font-size: 2em;
+  color: #ff4d4d;
+  text-shadow: 0 0 5px #ff0000;
+}
+
+#dialogue {
+  font-size: 1.2em;
+  min-height: 1.5em;
+}
+
+#canvas-container {
+  border: 1px solid #444;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  position: relative; /* For positioning controls */
+}
+
+#controls {
+  display: none; /* Hide by default, shown via media query */
+}
+
+/* Show controls on smaller screens */
+@media (max-width: 767px) {
+  #controls {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+
+  #controls .move-controls {
+    display: flex;
+    gap: 20px;
+  }
+
+  #controls button {
+    width: 70px;
+    height: 70px;
+    font-size: 2.5em;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none; /* Prevents text selection */
+  }
+
+  #controls button:active {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+#controls button {
+  width: 60px;
+  height: 60px;
+  font-size: 2em;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none; /* Prevents text selection */
+}
+
+#controls button:active {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+#jump-btn {
+  position: absolute;
+  right: -100px; /* Adjust as needed */
+  bottom: 0;
+}
