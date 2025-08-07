@@ -3,6 +3,7 @@ body {
   color: #e0e0e0;
   font-family: 'MS Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
   display: flex;
+  flex-direction: column; /* Arrange items vertically */
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -11,92 +12,68 @@ body {
 }
 
 #game-container {
-  width: 800px;
-}
-
-#info-display {
-  margin-bottom: 20px;
-}
-
-#death-count {
-  font-size: 2em;
-  color: #ff4d4d;
-  text-shadow: 0 0 5px #ff0000;
-}
-
-#dialogue {
-  font-size: 1.2em;
-  min-height: 1.5em;
-}
-
-#canvas-container {
-  border: 1px solid #444;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-  position: relative; /* For positioning controls */
-}
-
-body {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
-  font-family: 'MS Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  width: 100%;
+  max-width: 800px; /* Max width for larger screens */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
-  margin: 0;
-  text-align: center;
-}
-
-#game-container {
-  width: 1600px;
 }
 
 #info-display {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 #death-count {
-  font-size: 2em;
+  font-size: 1.8em;
   color: #ff4d4d;
   text-shadow: 0 0 5px #ff0000;
 }
 
 #dialogue {
-  font-size: 1.2em;
+  font-size: 1.1em;
   min-height: 1.5em;
 }
 
 #canvas-container {
   border: 1px solid #444;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-  position: relative; /* For positioning controls */
+  width: 100%; /* Make canvas responsive */
 }
 
 #controls {
-  display: none; /* Hide by default, shown via media query */
+    display: none; /* Hidden by default on desktop */
 }
 
-/* Show controls on smaller screens */
+/* --- Styles for Mobile Devices --- */
 @media (max-width: 767px) {
+  body {
+    justify-content: flex-start; /* Align to top */
+    padding-top: 20px;
+  }
+
   #controls {
-    display: flex;
+    display: flex; /* Show controls */
     justify-content: space-between;
-    position: fixed;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px; /* Add some horizontal padding */
+    margin-top: 15px;
+    position: fixed; /* Stick to the bottom */
     bottom: 20px;
-    left: 20px;
-    right: 20px;
+    left: 0;
+    right: 0;
     z-index: 100;
   }
 
   #controls .move-controls {
-    display: flex;
-    gap: 20px;
+      display: flex;
+      gap: 20px; /* Space between left/right buttons */
   }
 
   #controls button {
-    width: 70px;
-    height: 70px;
-    font-size: 2.5em;
+    width: 65px;
+    height: 65px;
+    font-size: 2.2em;
     background-color: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.5);
     color: white;
@@ -108,26 +85,4 @@ body {
   #controls button:active {
     background-color: rgba(255, 255, 255, 0.4);
   }
-}
-
-#controls button {
-  width: 60px;
-  height: 60px;
-  font-size: 2em;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  color: white;
-  border-radius: 50%;
-  cursor: pointer;
-  user-select: none; /* Prevents text selection */
-}
-
-#controls button:active {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-#jump-btn {
-  position: absolute;
-  right: -100px; /* Adjust as needed */
-  bottom: 0;
 }
