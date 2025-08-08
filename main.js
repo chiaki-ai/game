@@ -33,12 +33,13 @@ const dialogues = [
 // Game state variables
 let player;
 let platforms = [];
-let traps = [];
+let missiles = [];
 let gravity = 0.6;
 let deathCount = 0;
 const spawnPoint = { x: 100, y: 350 };
 let moveLeft = false;
 let moveRight = false;
+let missileSpawnRate = 120; // Spawn a missile every 120 frames (2 seconds)
 
 function setup() {
   const canvas = createCanvas(800, 400);
@@ -51,10 +52,6 @@ function setup() {
   platforms.push(new Platform(200, 300, 150, 20));
   platforms.push(new Platform(450, 220, 150, 20));
   
-  // Trap setup
-  traps.push(new Trap(350, 360, 100, 20)); // Spike on the ground
-  traps.push(new Trap(500, 200, 20, 20)); // Floating spike
-
   // --- Touch/Mouse Controls ---
   // Left Button
   leftBtn.addEventListener('mousedown', () => moveLeft = true);
@@ -91,9 +88,31 @@ function draw() {
   for (let p of platforms) {
     p.display();
   }
-  
-  for (let t of traps) {
-    t.display();
+
+  // --- Missile Logic ---
+  // Spawn new missiles
+  if (frameCount % missileSpawnRate === 0) {
+    let spawnX = random(width);
+    missiles.push(new Missile(spawnX, -20, player));
+  }
+
+  // Update and display missiles
+  for (let i = missiles.length - 1; i >= 0; i--) {
+    let m = missiles[i];
+    m.update();
+    m.display();
+
+    // Check for collision with player
+    if (player.collidesWith(m)) {
+      respawn();
+      missiles.splice(i, 1); // Remove missile on hit
+      continue;
+    }
+
+    // Remove missiles that are off-screen
+    if (m.isOffScreen()) {
+      missiles.splice(i, 1);
+    }
   }
 }
 
@@ -105,6 +124,8 @@ function respawn() {
   
   deathCountEl.textContent = `Death Count: ${deathCount}`;
   dialogueEl.textContent = dialogues[deathCount % dialogues.length];
+  // Clear all missiles on respawn
+  missiles = [];
 }
 
 // --- Classes ---
@@ -138,18 +159,12 @@ class Player {
     // Platform collision
     for (let p of platforms) {
       if (this.collidesWith(p)) {
-        if (this.vel.y > 0) {
+        // Check if landing on top
+        if (this.vel.y > 0 && (this.y + this.h - this.vel.y) <= p.y) {
           this.y = p.y - this.h;
           this.vel.y = 0;
           this.onGround = true;
         }
-      }
-    }
-    
-    // Trap collision
-    for (let t of traps) {
-      if (this.collidesWith(t)) {
-        respawn();
       }
     }
     
@@ -209,24 +224,41 @@ class Platform {
   }
 }
 
-class Trap {
-  constructor(x, y, w, h) {
+class Missile {
+  constructor(x, y, target) {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
+    this.w = 8;
+    this.h = 16;
+    this.speed = 3;
+    
+    // Calculate direction towards the target at the moment of creation
+    let direction = createVector(target.x - this.x, target.y - this.y);
+    direction.normalize();
+    this.velocity = direction.mult(this.speed);
   }
-  
+
+  update() {
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+  }
+
   display() {
-    fill(255, 0, 0);
+    fill(255, 100, 100);
     noStroke();
+    // Simple missile shape
+    push();
+    translate(this.x, this.y);
+    rotate(this.velocity.heading() + PI / 2);
     beginShape();
-    for (let i = 0; i < this.w; i += 10) {
-      vertex(this.x + i, this.y);
-      vertex(this.x + i + 5, this.y - 10);
-    }
-    vertex(this.x + this.w, this.y);
-    vertex(this.x, this.y);
+    vertex(0, -this.h / 2);
+    vertex(-this.w / 2, this.h / 2);
+    vertex(this.w / 2, this.h / 2);
     endShape(CLOSE);
+    pop();
+  }
+
+  isOffScreen() {
+    return (this.y > height || this.y < -this.h || this.x < -this.w || this.x > width);
   }
 }
