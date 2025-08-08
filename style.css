@@ -58,12 +58,7 @@ body {
     align-items: center;
     width: 100%;
     padding: 0 20px; /* Add some horizontal padding */
-    margin-top: 15px;
-    position: fixed; /* Stick to the bottom */
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    z-index: 100;
+    margin-top: 15px; /* Keep a small margin below the canvas */
   }
 
   #controls .move-controls {
